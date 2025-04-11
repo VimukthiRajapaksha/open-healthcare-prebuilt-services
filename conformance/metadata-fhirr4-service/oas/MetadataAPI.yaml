@@ -1,0 +1,18 @@
+openapi: 3.0.1
+info:
+  title: FHIR R4 Metadata API
+  description: |
+    This API provides the implementation of the FHIR capabilities interaction, enabling FHIR client applications to retrieve the server's capability statement. The capability statement, represented as a CapabilityStatement resource, details the server's current operational functionalities, including supported resource types and interactions.
+  version: 1.0.0
+paths:
+  /fhir/r4/metadata:
+    get:
+      summary: Retrieve the server's capability statement.
+      description: Returns a CapabilityStatement resource that describes the server's functionalities, including supported FHIR resource types, interactions, and other operational details.
+      responses:
+        '200':
+          description: Returns a CapabilityStatement resource detailing the server's capabilities.
+          content:
+            application/fhir+json:
+              schema:
+                type: object
