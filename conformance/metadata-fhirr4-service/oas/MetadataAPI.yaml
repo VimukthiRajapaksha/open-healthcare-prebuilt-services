@@ -23,30 +23,14 @@ paths:
         - Metadata
       responses:
         '200':
-          description: Successfully retrieved capability statement
+          description: Returns FHIR international401:CapabilityStatement resource
           content:
             application/fhir+json:
               schema:
-                $ref: '#/components/schemas/CapabilityStatement'
+                type: object
         '400':
-          description: Invalid request parameters
+          description: Returns FHIR r4:OperationOutcome response
           content:
             application/fhir+json:
               schema:
-                $ref: '#/components/schemas/OperationOutcome'
-components:
-  schemas:
-    CapabilityStatement:
-      type: object
-      description: FHIR international401:CapabilityStatement resource
-    OperationOutcome:
-      type: object
-      description: FHIR r4:OperationOutcome response
-  securitySchemes:
-    FHIRAuth:
-      type: http
-      scheme: bearer
-      description: Bearer token authentication using FHIR-specific scopes
-      bearerFormat: JWT
-security:
-  - FHIRAuth: []
+                type: object
