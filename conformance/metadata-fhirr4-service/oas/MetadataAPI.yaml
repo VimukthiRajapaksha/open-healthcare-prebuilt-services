@@ -1,18 +1,52 @@
 openapi: 3.0.1
 info:
   title: FHIR R4 Metadata API
-  description: |
-    This API provides the implementation of the FHIR capabilities interaction, enabling FHIR client applications to retrieve the server's capability statement. The capability statement, represented as a CapabilityStatement resource, details the server's current operational functionalities, including supported resource types and interactions.
+  description: >
+    This API provides the implementation of the FHIR capabilities interaction,
+    enabling FHIR client applications to retrieve the server's capability statement.
+    The capability statement details the server's current operational functionalities,
+    including supported resource types and interactions.
   version: 1.0.0
+servers:
+  - url: https://api.example.com/fhir/r4
+    description: FHIR R4 Production Server
 paths:
-  /fhir/r4/metadata:
+  /metadata:
     get:
-      summary: Retrieve the server's capability statement.
-      description: Returns a CapabilityStatement resource that describes the server's functionalities, including supported FHIR resource types, interactions, and other operational details.
+      operationId: getCapabilityStatement
+      summary: Retrieve server capabilities
+      description: >
+        Returns a CapabilityStatement resource conforming to FHIR R4 specifications
+        that describes the server's supported resources, interactions, search
+        parameters, and operational capabilities.
+      tags:
+        - Metadata
       responses:
         '200':
-          description: Returns a CapabilityStatement resource detailing the server's capabilities.
+          description: Successfully retrieved capability statement
           content:
             application/fhir+json:
               schema:
-                type: object
+                $ref: '#/components/schemas/CapabilityStatement'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+components:
+  schemas:
+    CapabilityStatement:
+      type: object
+      description: FHIR international401:CapabilityStatement resource
+    OperationOutcome:
+      type: object
+      description: FHIR r4:OperationOutcome response
+  securitySchemes:
+    FHIRAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication using FHIR-specific scopes
+      bearerFormat: JWT
+security:
+  - FHIRAuth: []
